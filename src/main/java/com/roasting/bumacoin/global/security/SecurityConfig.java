@@ -1,0 +1,54 @@
+package com.roasting.bumacoin.global.security;
+
+import com.roasting.bumacoin.global.jwt.auth.JwtAuth;
+import com.roasting.bumacoin.global.jwt.util.JwtUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsUtils;
+
+import static org.springframework.http.HttpMethod.*;
+
+@Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final JwtUtil jwtUtil;
+    private final JwtAuth jwtAuth;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf().disable()
+                .formLogin().disable()
+                .cors()
+
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+                .and()
+                .authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                .antMatchers(POST, "/project/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(PUT, "/project/close/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(DELETE, "/project/**").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(GET, "/project/application").hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().permitAll()
+                .and()
+                .apply(new FilterConfig(jwtUtil, jwtAuth))
+        ;
+
+        return http.build();
+    }
+}
