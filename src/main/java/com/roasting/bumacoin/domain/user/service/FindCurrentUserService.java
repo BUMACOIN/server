@@ -22,6 +22,7 @@ public class FindCurrentUserService {
                 .name(user.getName())
                 .nickName(user.getNickName())
                 .email(user.getEmail())
+                .authority(user.getAuthority())
                 .build();
     }
 }
