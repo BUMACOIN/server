@@ -19,44 +19,44 @@ import static com.roasting.bumacoin.global.error.exception.ErrorCode.INTERNAL_SE
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(BumacoinException.class)
-    public ResponseEntity<?> handleCustomException(BumacoinException e) {
-        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getCode(), e.getErrorCode().getMessage()), HttpStatus.valueOf(e.getErrorCode().getStatus()));
-    }
-
-    @ExceptionHandler(BindException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<?> bindException(BindException e) {
-        Map<String, String> errorMap = new HashMap<>();
-
-        for (FieldError error : e.getFieldErrors()) {
-            errorMap.put(error.getField(), error.getDefaultMessage());
-        }
-
-        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({ConstraintViolationException.class})
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<?> handleConstraintViolation(ConstraintViolationException e) {
-        Map<String, String> errorMap = new HashMap<>();
-
-        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
-            errorMap.put(violation.getPropertyPath().toString(), violation.getMessage());
-        }
-
-        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleServerException(Exception ex) {
-        return new ResponseEntity<>(
-                new ErrorResponse(
-                        INTERNAL_SERVER_ERROR.getStatus(),
-                        INTERNAL_SERVER_ERROR.getCode(),
-                        INTERNAL_SERVER_ERROR.getMessage()
-                ),
-                HttpStatus.INTERNAL_SERVER_ERROR
-        );
-    }
+//    @ExceptionHandler(BumacoinException.class)
+//    public ResponseEntity<?> handleCustomException(BumacoinException e) {
+//        return new ResponseEntity<>(new ErrorResponse(e.getErrorCode().getStatus(), e.getErrorCode().getCode(), e.getErrorCode().getMessage()), HttpStatus.valueOf(e.getErrorCode().getStatus()));
+//    }
+//
+//    @ExceptionHandler(BindException.class)
+//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//    public ResponseEntity<?> bindException(BindException e) {
+//        Map<String, String> errorMap = new HashMap<>();
+//
+//        for (FieldError error : e.getFieldErrors()) {
+//            errorMap.put(error.getField(), error.getDefaultMessage());
+//        }
+//
+//        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ExceptionHandler({ConstraintViolationException.class})
+//    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+//    public ResponseEntity<?> handleConstraintViolation(ConstraintViolationException e) {
+//        Map<String, String> errorMap = new HashMap<>();
+//
+//        for (ConstraintViolation<?> violation : e.getConstraintViolations()) {
+//            errorMap.put(violation.getPropertyPath().toString(), violation.getMessage());
+//        }
+//
+//        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+//    }
+//
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ErrorResponse> handleServerException(Exception ex) {
+//        return new ResponseEntity<>(
+//                new ErrorResponse(
+//                        INTERNAL_SERVER_ERROR.getStatus(),
+//                        INTERNAL_SERVER_ERROR.getCode(),
+//                        INTERNAL_SERVER_ERROR.getMessage()
+//                ),
+//                HttpStatus.INTERNAL_SERVER_ERROR
+//        );
+//    }
 }
