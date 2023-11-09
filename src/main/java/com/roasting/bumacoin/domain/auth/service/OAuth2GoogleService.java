@@ -3,6 +3,9 @@ package com.roasting.bumacoin.domain.auth.service;
 import com.roasting.bumacoin.domain.user.domain.User;
 import com.roasting.bumacoin.domain.user.domain.authority.Authority;
 import com.roasting.bumacoin.domain.user.domain.repository.UserRepository;
+import com.roasting.bumacoin.domain.wallet.domain.CoinWallet;
+import com.roasting.bumacoin.domain.wallet.domain.Wallet;
+import com.roasting.bumacoin.domain.wallet.domain.repository.WalletRepository;
 import com.roasting.bumacoin.global.config.properties.AuthProperties;
 import com.roasting.bumacoin.global.feign.GoogleAuthClient;
 import com.roasting.bumacoin.global.feign.GoogleInfoClient;
@@ -26,6 +29,7 @@ public class OAuth2GoogleService {
     private final GoogleInfoClient googleInfoClient;
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
 
     public TokenResponseDto execute(String code) {
         String googleToken = googleAuthClient.getGoogleToken(
@@ -50,14 +54,37 @@ public class OAuth2GoogleService {
         Optional<User> user = userRepository.findByEmail(response.getEmail());
 
         if (user.isEmpty()) {
-            return userRepository.save(User.builder()
+            User currentUser = User.builder()
                     .email(response.getEmail())
                     .name(response.getName())
                     .nickName(response.getName())
                     .authority(Authority.USER)
-                    .build());
+                    .build();
+            userRepository.save(currentUser);
+            for (CoinWallet coinWallet : Wallet.coinWallets) {
+                Wallet wallet = Wallet.builder()
+                        .id(getCardNumber())
+                        .walletName(coinWallet.getName())
+                        .currency(coinWallet.getCurrency())
+                        .user(currentUser)
+                        .build();
+                walletRepository.save(wallet);
+            }
+            return currentUser;
         }
-
         return user.get().update(response);
+    }
+
+    private String getCardNumber() {
+        while(true) {
+            String randomNumber = getRandomNumber() + getRandomNumber();
+            if(walletRepository.findById(randomNumber).isEmpty()) {
+                return randomNumber;
+            }
+        }
+    }
+
+    private String getRandomNumber() {
+        return Integer.toString((int)(Math.random()*99999999));
     }
 }
