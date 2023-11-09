@@ -9,6 +9,10 @@ import lombok.Getter;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ErrorCode {
 
+    ALREADY_INITIALIZE_COIN(400, "COIN-400-1", "You Already Initialize Coin"),
+    COIN_NO_STOCK(400, "COIN-400-2", "Coin No Stock"),
+    DONT_HAVE_MONEY(400, "USER-400-1", "You Dont Have Money"),
+    INVALID_BLOCKCHAIN_HASH(400, "BLOCKCHAIN-400-1", "Invalid BlockChain Hash"),
     EXPIRED_JWT(403, "TOKEN-403-1", "Expired Jwt"),
     INVALID_JWT(403, "TOKEN-403-2", "Invalid Jwt"),
     USER_NOT_LOGIN(403, "USER-403-1", "User Not Login"),
@@ -16,7 +20,7 @@ public enum ErrorCode {
     FAILED_AUTHENTICATION(401, "AUTHENTICATION-401-1", "Failed Authentication"),
     NOT_MEISTER_MEMBER(401, "AUTHENTICATION-401-2", "Not Meister Member"),
     USER_NOT_FOUND(404, "USER-404-1", "User Not Found"),
-    PROJECT_NOT_FOUND(404, "PROJECT-404-1", "Project Not Found"),
+    WALLET_NOT_FOUND(404, "WALLET-404-1", "Wallet Not Found"),
     MEMBER_NOT_FOUND(404, "MEMBER-404-1", "Member Not Found"),
     APPLICATION_NOT_FOUND(404, "APPLICATION-404-1", "Application Not Found"),
     ALREADY_APPLICATION(400, "APPLICATION-400-1", "Already Application This Project"),

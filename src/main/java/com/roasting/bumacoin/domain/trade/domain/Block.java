@@ -1,13 +1,12 @@
-package com.roasting.bumacoin.domain.blockchain.domain;
+package com.roasting.bumacoin.domain.trade.domain;
 
+import com.roasting.bumacoin.domain.trade.domain.repository.ChainRepository;
+import com.roasting.bumacoin.domain.trade.service.CreateHashService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -20,16 +19,44 @@ public class Block {
     private String previousHash;
 
     @Column
-    private String data;
+    private Long blockNumber;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private Trade data;
 
     @Column
     private long timeStamp;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Chain chain;
+
     @Builder
-    public Block(String data, String previousHash, String hash, long timeStamp) {
+    public Block(Trade data, String previousHash, long timeStamp, Chain chain, Long blockNumber) {
         this.data = data;
         this.previousHash = previousHash;
-        this.hash = hash;
+        this.hash = calculateHash(data);
         this.timeStamp = timeStamp;
+        this.chain = chain;
+        this.blockNumber = blockNumber;
+    }
+
+    public String calculateHash(Trade data) {
+        return CreateHashService.applySha256(
+                previousHash +
+                        Long.toString(timeStamp) +
+                        data.createHashValue()
+        );
+    }
+
+    public boolean isValidBlock() {
+        if (!previousHash.equals(chain.getLastBlockHash())) {
+            return false;
+        }
+
+        String recalculatedHash = calculateHash(data);
+        if (!recalculatedHash.equals(hash)) {
+            return false;
+        }
+        return true;
     }
 }

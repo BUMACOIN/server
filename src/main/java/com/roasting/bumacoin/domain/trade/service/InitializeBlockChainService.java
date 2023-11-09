@@ -1,8 +1,7 @@
-package com.roasting.bumacoin.domain.blockchain.service;
+package com.roasting.bumacoin.domain.trade.service;
 
-import com.roasting.bumacoin.domain.blockchain.domain.BlockChain;
-import com.roasting.bumacoin.domain.blockchain.domain.repository.BlockChainRepository;
-import lombok.NoArgsConstructor;
+import com.roasting.bumacoin.domain.trade.domain.Chain;
+import com.roasting.bumacoin.domain.trade.domain.repository.ChainRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @RequiredArgsConstructor
 public class InitializeBlockChainService {
-    private final BlockChainRepository blockChainRepository;
+    private final ChainRepository blockChainRepository;
 
     public void execute(String walletName) {
-        blockChainRepository.save(BlockChain
+        blockChainRepository.save(Chain
                 .builder()
                 .walletName(walletName)
                 .build());

@@ -33,12 +33,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @Column
+    private Long totalMoney;
+
     @Builder
     public User(String name, String nickName, String email, Authority authority) {
         this.name = name;
         this.nickName = nickName;
         this.email = email;
         this.authority = authority;
+        this.totalMoney = 10000L;
     }
 
     public User update(GoogleInfoResponseDto response) {
@@ -46,6 +50,8 @@ public class User {
         this.name = response.getName();
         return this;
     }
+
+    public void updateMoney(Long totalMoney) { this.totalMoney = totalMoney; }
 
     public void updateInfo(UpdateUserRequestDto request) {
         this.nickName = request.getNickName();

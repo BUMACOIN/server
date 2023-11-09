@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-public class BlockChain {
+public class Chain {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,12 +22,19 @@ public class BlockChain {
     @Column
     private Date lastAddedAt;
 
-    @OneToMany
-    private List<Block> block;
+    @OneToOne(fetch = FetchType.LAZY)
+    private Block lastBlock;
 
     @Builder
-    public BlockChain(String walletName) {
+    public Chain(String walletName) {
         this.walletName = walletName;
         this.lastAddedAt = new Date();
+    }
+
+    public String getLastBlockHash() {
+        if (lastBlock != null) {
+            return lastBlock.getHash();
+        }
+        return null;
     }
 }

@@ -46,11 +46,11 @@ public class Wallet {
     }
 
     public static List<CoinWallet> coinWallets = List.of(
-            new CoinWallet("Svelte", "SLT"),
-            new CoinWallet("Spring Boot", "SPB"),
-            new CoinWallet("Azure", "AZR"),
-            new CoinWallet("Nest.JS", "NES"),
-            new CoinWallet("Preact", "PRC"),
-            new CoinWallet("Qwik", "QWK")
+            new CoinWallet("Svelte", "SLT", "svelte-bg.png"),
+            new CoinWallet("Spring Boot", "SPB", "spring_boot-bg.png"),
+            new CoinWallet("Azure", "AZR", "azure-bg.png"),
+            new CoinWallet("Nest.JS", "NES", "nestjs-bg.png"),
+            new CoinWallet("Preact", "PRC", "preact-bg.png"),
+            new CoinWallet("Qwik", "QWK", "qwik-bg.png")
     );
 }
