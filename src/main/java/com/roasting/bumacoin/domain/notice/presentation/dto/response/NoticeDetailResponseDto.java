@@ -2,9 +2,11 @@ package com.roasting.bumacoin.domain.notice.presentation.dto.response;
 
 import com.roasting.bumacoin.domain.user.domain.User;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.util.Date;
 
+@Getter
 public class NoticeDetailResponseDto {
     private Long id;
     private String title;
