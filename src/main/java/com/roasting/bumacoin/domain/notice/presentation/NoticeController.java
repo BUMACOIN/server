@@ -1,7 +1,8 @@
 package com.roasting.bumacoin.domain.notice.presentation;
 
 import com.roasting.bumacoin.domain.notice.presentation.dto.request.CreateNoticeRequestDto;
-import com.roasting.bumacoin.domain.notice.presentation.dto.response.NoticeResponseDto;
+import com.roasting.bumacoin.domain.notice.presentation.dto.response.NoticeDetailResponseDto;
+import com.roasting.bumacoin.domain.notice.presentation.dto.response.NoticeListResponseDto;
 import com.roasting.bumacoin.domain.notice.service.CreateNoticeService;
 import com.roasting.bumacoin.domain.notice.service.DeleteNoticeService;
 import com.roasting.bumacoin.domain.notice.service.FindNoticeListService;
@@ -31,12 +32,12 @@ public class NoticeController {
     }
 
     @GetMapping
-    public List<NoticeResponseDto> getNoticeList() {
+    public List<NoticeListResponseDto> getNoticeList() {
         return findNoticeListService.execute();
     }
 
     @GetMapping("/{id}")
-    public NoticeResponseDto getNotice(@PathVariable Long id) {
+    public NoticeDetailResponseDto getNotice(@PathVariable Long id) {
         return findNoticeService.execute(id);
     }
 }
