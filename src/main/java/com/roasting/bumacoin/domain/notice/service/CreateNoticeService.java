@@ -20,14 +20,19 @@ public class CreateNoticeService {
     private final UserFacade userFacade;
 
     @Transactional
-    public void execute(CreateNoticeRequestDto requestDto) {
-        User user = userFacade.getCurrentUser();
-        if(user.getAuthority() == Authority.USER) throw new ForbiddenException();
+    public Long execute(CreateNoticeRequestDto requestDto) {
+        try {
+            User user = userFacade.getCurrentUser();
+            if(user.getAuthority() == Authority.USER) throw new ForbiddenException();
 
-        noticeRepository.save(Notice.builder()
-                .title(requestDto.getTitle())
-                .content(requestDto.getContent())
-                .user(user)
-                .build());
+            Notice notice = noticeRepository.save(Notice.builder()
+                    .title(requestDto.getTitle())
+                    .content(requestDto.getContent())
+                    .user(user)
+                    .build());
+            return notice.getId();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }

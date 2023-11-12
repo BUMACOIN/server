@@ -22,8 +22,9 @@ public class NoticeController {
     private final FindNoticeService findNoticeService;
 
     @PostMapping
-    public void createNotice(@RequestBody CreateNoticeRequestDto requestDto) {
-        createNoticeService.execute(requestDto);
+    public Long createNotice(@RequestBody CreateNoticeRequestDto requestDto) {
+        System.out.println(requestDto.getTitle());
+        return createNoticeService.execute(requestDto);
     }
 
     @DeleteMapping("/{id}")
