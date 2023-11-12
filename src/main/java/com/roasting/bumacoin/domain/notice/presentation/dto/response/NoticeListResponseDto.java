@@ -7,19 +7,17 @@ import lombok.Getter;
 import java.util.Date;
 
 @Getter
-public class NoticeResponseDto {
+public class NoticeListResponseDto {
     private Long id;
     private String title;
-    private String content;
     private Date createdAt;
-    private User user;
+    private String userName;
 
     @Builder
-    public NoticeResponseDto(Long id, String title, String content, Date createdAt, User user) {
+    public NoticeListResponseDto(Long id, String title, Date createdAt, String userName) {
         this.id = id;
         this.title = title;
-        this.content = content;
         this.createdAt = createdAt;
-        this.user = user;
+        this.userName = userName;
     }
 }
