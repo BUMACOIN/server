@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface BlockRepository extends JpaRepository<Block, String> {
     Optional<Block> findByBlockNumber(Long id);
 
-    Optional<List<Block>> findByChain(Chain chain);
+    Optional<List<Block>> findByChainOrderByBlockNumber(Chain chain);
 }
