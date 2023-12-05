@@ -62,6 +62,7 @@ public class Coin {
     }
 
     public void updatePurchasableCoinAmount(int amount) {
-        this.purchasableCoinAmount -= amount;
+        this.purchasableCoinAmount = amount;
     }
+    public void updateCurrentPrice(int price) { this.currentPrice = price; }
 }
