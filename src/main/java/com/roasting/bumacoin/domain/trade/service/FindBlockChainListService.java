@@ -17,6 +17,6 @@ public class FindBlockChainListService {
 
     public List<Block> execute(String coinName) {
         Chain chain = chainRepository.findByWalletName(coinName).orElseThrow();
-        return blockRepository.findByChain(chain).orElseThrow();
+        return blockRepository.findByChainOrderByBlockNumberDesc(chain).orElseThrow();
     }
 }
